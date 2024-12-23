@@ -83,4 +83,13 @@ public class ObjectPool<T> where T : new()
     {
         poolStack.Push(element);
     }
+
+    public override string ToString()
+    {
+        return $"ObjectPool<{typeof(T).Name}>: " +
+               $"Pool size: {PoolCount}, " +
+               $"Active objects: {ActiveCount}, " +
+               $"Inactive objects: {InactiveCount}";
+    }
+
 }

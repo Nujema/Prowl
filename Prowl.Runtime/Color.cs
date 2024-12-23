@@ -96,11 +96,12 @@ public struct Color : IEquatable<Color>
 
     public uint GetUInt() => ((Color32)this).GetUInt();
 
-    public static Color Lerp(Color a, Color b, float t)
+    public static Color LerpUnclamped(Color a, Color b, float t)
     {
-        t = MathF.Min(MathF.Max(t, 0f), 1f);
         return new Color(a.r + (b.r - a.r) * t, a.g + (b.g - a.g) * t, a.b + (b.b - a.b) * t, a.a + (b.a - a.a) * t);
     }
+
+    public static Color Lerp(Color a, Color b, float t) => LerpUnclamped(a, b, Math.Clamp(t, 0f, 1f));
 
     // Source: https://gist.github.com/doomlaser/c7b894fa4936297195a053eda21fc0a0
     public static Color FromHSV(float h, float s, float v, float a = 1)

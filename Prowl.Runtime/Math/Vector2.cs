@@ -270,12 +270,23 @@ public struct Vector2 : IEquatable<Vector2>, IFormattable
     /// <param name="amount">Value between 0 and 1 indicating the weight of the second source vector.</param>
     /// <returns>The interpolated vector.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Vector2 Lerp(Vector2 value1, Vector2 value2, double amount)
+    public static Vector2 LerpUnclamped(Vector2 value1, Vector2 value2, double amount)
     {
         return new Vector2(
             value1.x + (value2.x - value1.x) * amount,
             value1.y + (value2.y - value1.y) * amount);
     }
+
+    /// <summary>
+    /// Linearly interpolates between two vectors based on the given weighting, clamping the weight to the range [0, 1].
+    /// </summary>
+    /// <param name="value1">The first source vector.</param>
+    /// <param name="value2">The second source vector.</param>
+    /// <param name="amount">Value between 0 and 1 indicating the weight of the second source vector.</param>
+    /// <returns>The interpolated vector.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2 Lerp(Vector2 value1, Vector2 value2, double amount)
+        => LerpUnclamped(value1, value2, Math.Clamp(amount, 0.0, 1.0));
 
     /// <summary>
     /// Transforms a vector by the given matrix.

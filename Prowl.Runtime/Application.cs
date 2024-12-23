@@ -5,6 +5,7 @@ using System;
 
 using Prowl.Runtime.Audio;
 using Prowl.Runtime.SceneManagement;
+using Prowl.Runtime.Tweening;
 
 using Veldrid;
 
@@ -79,7 +80,7 @@ public static class Application
         IsRunning = true;
         IsPlaying = true; // Base application is not the editor, isplaying is always true
 
-        Screen.Start($"{title} - {GetBackend()}", new Vector2Int(width, height), new Vector2Int(100, 100), WindowState.Maximized);
+        Screen.Start($"{title} - {GetBackend()}", new Vector2Int(width, height), new Vector2Int(100, 100));
     }
 
     static void AppInitialize()
@@ -87,6 +88,8 @@ public static class Application
         Graphics.Initialize(true, GetBackend());
         SceneManager.Initialize();
         AudioSystem.Initialize();
+        EventTimelineManager.Initialize();
+        TweenManager.Initialize();
 
         AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
@@ -106,6 +109,8 @@ public static class Application
             Time.TimeStack.Push(s_appTime);
 
             AudioSystem.UpdatePool();
+            EventTimelineManager.Update();
+            TweenManager.Update();
 
             Update?.Invoke();
             Render?.Invoke();
